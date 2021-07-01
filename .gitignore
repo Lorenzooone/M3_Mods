@@ -1,0 +1,4 @@
+# Ignore ROMs and Patches
+*.gba
+*.ups
+*.sav
