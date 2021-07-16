@@ -16,7 +16,7 @@ org $9F92600; incbin sound_relocate_dump.bin
 //                               TEXT SKIPPING SHORTCUT
 //============================================================================================
 
-define shortcut $0201 //L+A
+define shortcut $0002 //B
 
 // Make it so the game skips the text printing portion if a specific shortcut is pressed
 // 04 00 32 00
@@ -33,7 +33,13 @@ cmp  r0,#0
 bne  +
 b    $801D9B8
 +
-
+// 04 00 B6 00
+org $8020792
+bl   skipping_hacks.special_text_skipping_dialogue
+cmp  r0,#0xFF
+bne  +
+b    $8020846
++
 
 //============================================================================================
 //                                    NEW HACK CODE
