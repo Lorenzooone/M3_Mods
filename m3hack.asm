@@ -16,7 +16,7 @@ org $9F92600; incbin sound_relocate_dump.bin
 //                               TEXT SKIPPING SHORTCUT
 //============================================================================================
 
-define shortcut $0002 //B
+define shortcut $0001 //A
 
 // Make it so the game skips the text printing portion if a specific shortcut is pressed
 // 04 00 32 00
