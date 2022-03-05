@@ -10,7 +10,7 @@
 @echo Compiling .asm files and inserting all new data files
 @echo ---------------------------------------------------------
 @echo.
-@xkas testj.gba m3hack.asm
+@xkas testj.gba m3hackj.asm
 @xkas teste.gba m3hack.asm
 @echo.
 @echo.
