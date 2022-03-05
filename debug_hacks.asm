@@ -493,8 +493,8 @@ bl   .force_text_into_pos
 pop  {r5,pc}
 
 // ==============================================
-// This hack prevents changing the input reading layer
-// if the debug menu was closed.
+// This hack disables a specific way to process text
+// which needs to be printed.
 // ==============================================
 .fix_vwf_debug_top:
 push {lr}
@@ -512,8 +512,9 @@ pop  {pc}
 
 
 // ==============================================
-// This hack prevents changing the input reading layer
-// if the debug menu was closed.
+// This hack enables a specific way to process text
+// which needs to be printed. It makes it possible
+// to print more than two tiles.
 // ==============================================
 .fix_vwf_debug_bottom:
 push {lr}
