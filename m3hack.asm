@@ -13,96 +13,73 @@ org $812030C; dd $9F92600
 org $9F92600; incbin sound_relocate_dump.bin
 
 //============================================================================================
-//                               OVERWORLD DEBUG MENU
+//                                 WESS PLAYABLE STUFF
 //============================================================================================
 
-define shortcut $000C //Select+Start
-define shortcut_change_reader_to_debug $0200 //L
-define shortcut_change_reader_to_normal $0100 //R
+// Set up the battle menu so it uses Duster's
+org $8060FB0; bl playable_char_hacks.duster_menu_wess
 
-// Make it so the game skips the text printing portion if a specific shortcut is pressed
-org $8039B8A; bl debug_hacks.switch_loading
+// Make Thief Tools always appear for Wess
+org $809C98A; bl playable_char_hacks.wess_skip_tools_check
+org $809C9BE; bl playable_char_hacks.wess_skip_tools_check
+org $809C9F2; bl playable_char_hacks.wess_skip_tools_check
+org $809CA26; bl playable_char_hacks.wess_skip_tools_check
+org $809CA5A; bl playable_char_hacks.wess_skip_tools_check
+org $809CA8E; bl playable_char_hacks.wess_skip_tools_check
 
-// Make it so you can change which "layer" reads inputs
-org $800B310; bl debug_hacks.switch_change_input_reader_normal
-org $800B56A; bl debug_hacks.switch_change_input_reader_running
-org $803A102; bl debug_hacks.switch_change_input_reader_debug
-org $803A2EA; bl debug_hacks.switch_change_input_reader_debug
-org $803A4E6; bl debug_hacks.switch_change_input_reader_debug
-org $803A772; bl debug_hacks.switch_change_input_reader_debug
-org $803A98A; bl debug_hacks.switch_change_input_reader_debug
-org $803ACB2; bl debug_hacks.switch_change_input_reader_debug
+// Change colour of Wess' icon in the overworld menus
+org $9B99964; incbin gfx_wess_menu.bin
 
-// Make it so when you exit the debug menu, it doesn't come back
-org $803A122; bl debug_hacks.remove_input_change
-org $803A326; bl debug_hacks.remove_input_change
-org $803A506; bl debug_hacks.remove_input_change
-org $803A7BA; bl debug_hacks.remove_input_change
-org $803AA22; bl debug_hacks.remove_input_change
-org $803ACD2; bl debug_hacks.remove_input_change
+// Change Wess' palette and point to it
+define wess_palette_new_location $9FD7E00
+org {wess_palette_new_location}; incbin gfx_wess_palette.bin
+org $9C91338; dd {wess_palette_new_location}-$9C90960; dw $0200
 
-// Fix VWF in the English version
-org $8008A20; bl debug_hacks.fix_vwf_debug_top
-org $8008A28; bl debug_hacks.fix_vwf_debug_bottom
-org $8006B70; bl debug_hacks.remove_useless_writes
+// Change Wess' bottom arrangement and point to it
+define wess_arrangement_new_location $9FD7D50
+org {wess_arrangement_new_location}; incbin gfx_wess_arrangement.bin
+org $9C91E40; dd {wess_arrangement_new_location}-$9C90960; dw $00B0
 
-// Fix position of options
-// Page 1
-org $803B2E2; bl debug_hacks.blank_line_wrapper_0
-org $803B2F2; bl debug_hacks.print_proper_map_name; b $803B334
-org $803B336; bl debug_hacks.fix_odd_end_wrapper_special_0
-org $803B340; bl debug_hacks.blank_line_wrapper_1
-org $803B362; bl debug_hacks.force_text_into_pos_wrapper_1
-org $803B368; bl debug_hacks.fix_odd_end_wrapper
-org $803B374; bl debug_hacks.blank_line_wrapper_2
-org $803B394; bl debug_hacks.force_text_into_pos_wrapper_2
-org $803B39A; bl debug_hacks.fix_odd_end_wrapper
-// Page 2
-org $803B3D6; bl debug_hacks.blank_line_wrapper_0
-org $803B3EE; bl debug_hacks.force_text_into_pos_wrapper_0
-org $803B3F4; bl debug_hacks.fix_odd_end_wrapper_alt
-org $803B400; bl debug_hacks.blank_line_wrapper_1
-org $803B422; bl debug_hacks.force_text_into_pos_wrapper_1
-org $803B428; bl debug_hacks.fix_odd_end_wrapper
-org $803B434; bl debug_hacks.blank_line_wrapper_2
-org $803B454; bl debug_hacks.force_text_into_pos_wrapper_2
-org $803B45A; bl debug_hacks.fix_odd_end_wrapper
-// Page 3
-org $803B486; bl debug_hacks.blank_line_wrapper_0
-org $803B4A8; bl debug_hacks.force_text_into_pos_wrapper_0
-org $803B4AE; bl debug_hacks.fix_odd_end_wrapper
-org $803B4BA; bl debug_hacks.blank_line_wrapper_1
-org $803B4D2; bl debug_hacks.force_text_into_pos_wrapper_1
-org $803B4D8; bl debug_hacks.fix_odd_end_wrapper
-org $803B4E4; bl debug_hacks.blank_line_wrapper_2
-org $803B4EA; bl debug_hacks.fix_odd_end_wrapper
-// Page 4
-org $803B50E; bl debug_hacks.blank_line_wrapper_0
-org $803B514; bl debug_hacks.fix_odd_end_wrapper
-org $803B520; bl debug_hacks.blank_line_wrapper_1
-org $803B526; bl debug_hacks.fix_odd_end_wrapper
-org $803B532; bl debug_hacks.blank_line_wrapper_2
-org $803B538; bl debug_hacks.fix_odd_end_wrapper
-// Page 5
-org $803B556; bl debug_hacks.blank_line_wrapper_0
-org $803B55C; bl debug_hacks.fix_odd_end_wrapper
-org $803B568; bl debug_hacks.blank_line_wrapper_1
-org $803B56E; bl debug_hacks.fix_odd_end_wrapper
-org $803B57A; bl debug_hacks.blank_line_wrapper_2
-org $803B580; bl debug_hacks.fix_odd_end_wrapper
-// Page 6
-org $803B59E; bl debug_hacks.blank_line_wrapper_0
-org $803B5A4; bl debug_hacks.fix_odd_end_wrapper
-org $803B5B0; bl debug_hacks.blank_line_wrapper_1
-org $803B5B6; bl debug_hacks.fix_odd_end_wrapper
+// Add Wess' battle icons
+org $9C98D08; incbin gfx_battle_icons.bin
+
+// Make Wess playable outside of battle and in-battle
+org $80CCE80; dw $0100
+
+// Change Wess' sound distribution table so it supports multiple sounds
+org $8112EE0; db $20; db $18; db $12; db $0C; db $09; db $05
+
+//============================================================================================
+//                                 BRONSON PLAYABLE STUFF
+//============================================================================================
+
+// Change to Bronson's icon in the overworld menus
+org $9B9A564; incbin gfx_bronson_menu.bin
+
+// Change Bronson's palette and point to it
+org $9C91370; dd {wess_palette_new_location}-$9C90960; dw $0200
+org $9CEC088; dw $3DED
+org $9CEC288; dw $3DED
+org $9CEC488; dw $3DED
+org $9CEC688; dw $3DED
+org $9CEC888; dw $3DED
+org $9CECA88; dw $3DED
+
+// Change Bronson's bottom arrangement and point to it
+define bronson_arrangement_new_location $9FD7CA0
+org {bronson_arrangement_new_location}; incbin gfx_bronson_arrangement.bin
+org $9C91E48; dd {bronson_arrangement_new_location}-$9C90960; dw $00B0
+
+// Make Bronson playable outside of battle and in-battle
+org $80CCFC4; dw $0100
 
 //============================================================================================
 //                                    NEW HACK CODE
 //============================================================================================
 
 // Now insert the hack code
-org $813C100
-incsrc debug_hacks.asm
+org $813C200
+incsrc playable_char_hacks.asm
 
 
 
