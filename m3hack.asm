@@ -78,7 +78,7 @@ org $80CCFC4; dw $0100
 //============================================================================================
 
 // Now insert the hack code
-org $813C200
+org $813C500
 incsrc playable_char_hacks.asm
 
 
